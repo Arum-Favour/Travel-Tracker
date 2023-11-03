@@ -21,16 +21,16 @@ app.use(express.static("public"));
 async function checkVisited() {
   const result = await db.query("SELECT country_code FROM visited_countries");
 
-  let countries = [];
+  let checkedCountries = [];
   result.rows.forEach((country) => {
-    countries.push(country.country_code);
+    checkedCountries.push(country.country_code);
   });
-  return countries;
+  return checkedCountries;
 }
 
 app.get("/", async (req, res) => {
-  const countries = await checkVisited();
-  res.render("index.ejs", { countries: countries, total: countries.length });
+  const checkedCountries = await checkVisited();
+  res.render("index.ejs", { countries: checkedCountries, total: checkedCountries.length });
 });
 
 app.post("/add", async (req, res) => {
@@ -52,19 +52,19 @@ app.post("/add", async (req, res) => {
       res.redirect("/");
     } catch (err) {
       console.log(err);
-      const countries = await checkVisited();
+      const checkedCountries = await checkVisited();
       res.render("index.ejs", {
-        countries: countries,
-        total: countries.length,
+        countries: checkedCountries,
+        total: checkedCountries.length,
         error: "Country has already been added, try again.",
       });
     }
   } catch (err) {
     console.log(err);
-    const countries = await checkVisited();
+    const checkedCountries = await checkVisited();
     res.render("index.ejs", {
-      countries: countries,
-      total: countries.length,
+      countries: checkedCountries,
+      total: checkedCountries.length,
       error: "Country name does not exist, try again.",
     });
   }
