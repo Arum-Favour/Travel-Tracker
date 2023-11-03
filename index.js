@@ -15,8 +15,6 @@ const db = new pg.Client({
 
 db.connect();
 
-let countries = [];
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
