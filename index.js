@@ -35,7 +35,8 @@ app.get("/", async (req, res) => {
 
 app.post("/add", async (req, res) => {
   const input = req.body["country"];
-
+  
+  //COUPLE OF TRY CATCH BLOCKS TO HANDLE ERROR
   try {
     const result = await db.query(
       "SELECT country_code FROM countries WHERE LOWER(country_name) LIKE '%' || $1 || '%';",
